@@ -7,7 +7,7 @@ api = Flask(__name__)
 
 class Auth_controller:
 
-    @api.route('/user', method = ["POST"])
+    @api.route('/users', method = ["POST"])
     def create_user():
         data = request.json
 

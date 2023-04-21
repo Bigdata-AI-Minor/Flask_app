@@ -1,10 +1,10 @@
-from .. import db
+from app import db
 import datetime
 
 class User_repo(db.Model):
-    __tablename__ = "image"
+    __tablename__ = "Image"
 
-    id = db.Column(db.String, primary_key = True, unique = True)
+    id = db.Column(db.Integer, primary_key = True, unique = True)
     classification = db.Column(db.Integer, nullable = False)
     long = db.Column(db.Float, nullable = False)
     lan = db.Column(db.Float, nullable = False)

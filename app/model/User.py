@@ -2,7 +2,7 @@ from Entity import Entity
 
 class User(Entity):
     def __init__(self, id, name, password, role, jwt_token):
-        Entity.__init__(self, "user")
+        Entity.__init__(self, "User")
         self.id = id
         self.name = name
         self.password = password
