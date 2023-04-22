@@ -1,10 +1,9 @@
 from Entity import Entity
 
 class User(Entity):
-    def __init__(self, id, name, password, role, jwt_token):
+    def __init__(self, id, name, password, role):
         Entity.__init__(self, "User")
-        self.id = id
-        self.name = name
-        self.password = password
-        self.role = role
-        self.jwt = jwt_token
+        self.Id = id
+        self.Name = name
+        self.Password = password
+        self.Role = role
