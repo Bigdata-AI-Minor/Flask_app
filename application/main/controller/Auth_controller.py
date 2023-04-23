@@ -4,21 +4,22 @@ from ..service.Auth_service import Auth_service
 from ..model.DTO.Auth_DTO import Auth_DTO
     
 
-api=Namespace('auth', description='authentication related operations')
-user_auth=api.model(Auth_DTO, {
+api=Namespace('Auth', description='Authentication related operations')
+auth_dto=api.model(Auth_DTO, {
     'name': fields.String(required=True, description='The name of the user'),
     'password': fields.String(required=True, description='The user password '),
 })
 
-class Auth_controller(Resource):
+@api.route('/login', methods=["POST"])
+class Login_controller(Resource):
 
-    @api.route('/login', method=["POST"])
-    @api.doc('Login user')
-    def Login():
+    @api.doc('Login user.')
+    def post():
         data=request.json
 
-    @api.route('/logout', method=["PUT"])
+@api.route('/logout', methods=["POST"])
+class Logout_controller(Resource):
+
     @api.doc('Logout user.')
-    def Logout():
+    def post():
         data=request.json
-        

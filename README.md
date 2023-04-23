@@ -11,6 +11,15 @@ source ./env/bin/activate
 ```
 You should now be inside (venv)
 
+Install dependencies:
+```sh
+python3.9 -m pip install -r requirements.txt
+```
+
+Start the flask application: 
+```sh
+flask run
+```
 
 Install the libraries in env (example flask but needs to change to actual libs): 
 ```sh
@@ -22,12 +31,13 @@ At any time save all dependencies we use:
 python3.9 –m pip freeze > requirements.txt
 ```
 
-Start the flask application: 
+export flask application as env variable:
 ```sh
-flask run
-```
+export FLASK_APP=manage.py
 
-Install dependencies:
-```sh
-python3.9 -m pip install -r requirements.txt
+flask db init
+
+flask db migrate
+
+flask db upgrade
 ```

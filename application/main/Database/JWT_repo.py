@@ -1,4 +1,4 @@
-from ... import db
+from ...main import db
 
 class Jwt_repo(db.Model):
     __tablename__="Jwt"

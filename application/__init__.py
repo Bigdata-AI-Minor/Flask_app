@@ -1,17 +1,28 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt
+from flask_restx import Api
+from flask import Blueprint
 
-from .config import config_by_name
-from flask.app import Flask
+from .main.controller.User_controller import api as user_ns
+from .main.controller.Auth_controller import api as auth_ns
+from .main.controller.Image_controller import api as img_ns
 
-db=SQLAlchemy()
-flask_bcrypt=Bcrypt()
+blueprint=Blueprint('api', __name__)
+authorizations={
+    'apikey': {
+        'type': 'apiKey',
+        'in': 'header',
+        'name': 'Authorization'
+    }
+}
 
-def create_app(config_name: str) -> Flask:
-    app=Flask(__name__)
-    app.config.from_object(config_by_name[config_name])
-    db.init_app(app)
-    flask_bcrypt.init_app(app)
+api=Api(
+    blueprint,
+    title='Flask application StadsJutters',
+    version='1.0',
+    description='a flask restplus (restx) web service application for the pilot project StadsJutters',
+    authorizations=authorizations,
+    security='apikey'
+)
 
-    return app
+api.add_namespace(user_ns, path='/users')
+api.add_namespace(auth_ns, path='/auth')
+api.add_namespace(img_ns, path='/images')

@@ -3,8 +3,8 @@ from flask_restx import Namespace, fields, Resource
 from ..service.Image_service import Image_service
 from ..model.DTO.Image_DTO import Image_DTO
 
-api=Namespace('images', description='Image related operations.')
-user_auth=api.model(Image_DTO, {
+api=Namespace('Images', description='Image related operations.')
+image_dto=api.model(Image_DTO, {
     'Classification': fields.String(required=True, description='The email address'),
     'Long': fields.Float(required=True, description='The longitude of the image taken.'),
     'lan': fields.Float(required=True, description='The latitude of the image taken.'),
@@ -12,33 +12,28 @@ user_auth=api.model(Image_DTO, {
 })
 
 
-class Auth_controller(Resource):
+@api.route('/', methods=["POST", "GET"])
+class Image_controller(Resource):
 
-    @api.route('/', method=["POST"])
     @api.doc('Create image entity.')
-    def create_image():
+    def post():
         data=request.json
-
-
-    @api.route('/<int:id>', method=["PUT"])
-    @api.doc('Update image entity.')
-    def update_image(string : id):
-        data=request.json
-
-
-    @api.route('/<int:id>', method=["DELETE"])
-    @api.doc('Create image entity.')
-    def delete_image(string : id):
-        data=request.json
-
-
-    @api.route('/images', method=["GET"])
+    
     @api.doc('Get image entities.')
-    def get_images():
+    def get():
         data=request.json
         
+@api.route('/<int:id>', methods=["PUT", "GET", "DELETE"])
+class Image_id_controller(Resource):
 
-    @api.route('/<int:id>', method=["GET"])
-    @api.doc('Get image entity.')
-    def get_image(string : id):
+    @api.doc('Update image entity.')
+    def put(id: int):
+        data=request.json
+
+    @api.doc('Create image entity.')
+    def delete(id: int):
+        data=request.json
+
+    @api.doc('Get image entity by id.')
+    def get(id : int):
         data=request.json

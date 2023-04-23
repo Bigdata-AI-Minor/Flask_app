@@ -1,4 +1,4 @@
-from ... import db
+from ...main import db
 
 class User_repo(db.Model):
     __tablename__="User"
