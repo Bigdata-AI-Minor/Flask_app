@@ -1,6 +1,5 @@
 from ..model.JWT_token import JWT_token
-from app import db
-from ..Database.JWT_repo import Jwt_repo
+from ..Database.JWT_repo import db
 
 class JWT_service():
 

@@ -19,7 +19,7 @@ python3.9 –m pip install flask
 
 At any time save all dependencies we use: 
 ```sh
-python3.9 –m pip freeze -> requirements.txt
+python3.9 –m pip freeze > requirements.txt
 ```
 
 Start the flask application: 
@@ -27,7 +27,7 @@ Start the flask application:
 flask run
 ```
 
-Install dependeties:
+Install dependencies:
 ```sh
 python3.9 -m pip install -r requirements.txt
 ```

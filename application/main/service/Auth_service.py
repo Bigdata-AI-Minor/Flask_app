@@ -1,3 +1,4 @@
+from ..Database.JWT_repo import db
 
 class Auth_service():
 
