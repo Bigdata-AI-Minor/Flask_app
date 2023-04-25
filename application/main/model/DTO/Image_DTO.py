@@ -8,4 +8,4 @@ class Image_DTO(Entity_DTO):
         self.Long=long
         self.Lan=lan
         self.Created=dateTime
-        self.ButString=bitString
+        self.BitString=bitString
