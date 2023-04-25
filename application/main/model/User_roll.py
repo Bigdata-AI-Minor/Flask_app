@@ -1,6 +1,6 @@
-from ...main import db
+from .. import db
 
-class User_roll_repo(db.Model):
+class User_roll(db.Model):
     __tablename__="UserRoll"
 
     Id=db.Column(db.Integer, primary_key=True, unique=True)

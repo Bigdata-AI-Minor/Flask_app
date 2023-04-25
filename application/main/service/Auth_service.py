@@ -1,4 +1,4 @@
-from ..Database.JWT_repo import db
+from ..model.JWT import db
 
 class Auth_service():
 

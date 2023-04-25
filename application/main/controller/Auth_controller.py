@@ -2,7 +2,6 @@ from flask import request
 from flask_restx import Namespace, fields, Resource
 from ..service.Auth_service import Auth_service
 from ..model.DTO.Auth_DTO import Auth_DTO
-    
 
 api=Namespace('Auth', description='Authentication related operations')
 auth_dto=api.model(Auth_DTO, {

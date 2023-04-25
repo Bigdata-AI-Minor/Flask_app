@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 
 from application import blueprint
 from application.main import create_app, db
-from application.main.Database import User_repo, Image_repo, JWT_repo, UserRoll_repo, Class_repo
+from application.main.model import JWT, Image, User, User_roll, Classification
 
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
@@ -18,11 +18,11 @@ migrate = Migrate(app, db)
 def make_shell_context():
     return dict(
         db=db, 
-        User=User_repo, 
-        Image=Image_repo,
-        Jwt=JWT_repo,
-        Class=Class_repo,
-        User_roll=UserRoll_repo
+        User=User, 
+        Image=Image,
+        Jwt=JWT,
+        Class=Classification,
+        User_roll=User_roll
         )
 
 # TODO create test command for populate database

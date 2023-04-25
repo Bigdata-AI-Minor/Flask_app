@@ -1,6 +1,6 @@
 from ..model.Image import Image
-from ..Database.Image_repo import db
-from application.main.Database.Image_repo import Image_repo
+from ..model.Image import db
+from application.main.model.Image import Image
 from typing import Dict, Tuple
 
 class Image_service():
@@ -16,7 +16,7 @@ class Image_service():
         created = data['created']
 
         try:
-            image = Image_repo.query.filter_by(bit_string=bit_string).first_or_404()
+            image = Image.query.filter_by(bit_string=bit_string).first_or_404()
         except:
             image = None
 
@@ -27,7 +27,7 @@ class Image_service():
             }
             return response_object, 409
         
-        image = Image_repo(classification=classification, long=long, lan=lan, 
+        image = Image(classification=classification, long=long, lan=lan, 
                                   created=created, bit_string=bit_string)
         
         return Image_service.save_changes(image, "uccessfully uploaded an image to the atabase")
@@ -39,14 +39,11 @@ class Image_service():
         return ""
 
     def get_image(id: str):
-        return ""
+        if id:
+            return Image.query.filter_by(id=id).first_or_404()
+        return Image.query.all()
     
-    def get_images():
-        return Image_repo.query.all()
-        # return None
-
-        
-    def save_changes(data: Image_repo, message) -> Tuple[Dict[str, str], int]:
+    def save_changes(data: Image, message) -> Tuple[Dict[str, str], int]:
         db.session.add(data)
         db.session.commit()
 

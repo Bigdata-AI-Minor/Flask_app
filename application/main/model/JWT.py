@@ -1,6 +1,6 @@
-from ...main import db
+from .. import db
 
-class Jwt_repo(db.Model):
+class Jwt(db.Model):
     __tablename__="Jwt"
 
     Id=db.Column(db.Integer, primary_key=True, unique=True)

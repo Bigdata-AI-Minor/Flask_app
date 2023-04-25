@@ -1,9 +1,9 @@
-from .Entity import Entity
+from .. import db
 
-class User(Entity):
-    def __init__(self, id, name, password, role):
-        Entity.__init__(self, "User")
-        self.Id=id
-        self.Name=name
-        self.Password=password
-        self.Role=role
+class User(db.Model):
+    __tablename__="User"
+
+    Id=db.Column(db.Integer, primary_key=True, unique=True)
+    Name=db.Column(db.String(50), unique=True)
+    Password=db.Column(db.String(100), nullable=False)
+    Role=db.Column(db.Integer, nullable=False)
