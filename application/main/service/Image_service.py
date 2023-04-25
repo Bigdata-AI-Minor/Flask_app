@@ -15,23 +15,22 @@ class Image_service():
         lan = data['lan']
         created = data['created']
 
-        # image = db.session.query(Image_repo).filter(bit_string=bit_string).one()
-        # image = Image_repo.db.session.query.filter_by(bit_string=bit_string).first()
-
-        image = Image_repo.query.filter_by(bit_string=bit_string).first_or_404()
+        try:
+            image = Image_repo.query.filter_by(bit_string=bit_string).first_or_404()
+        except:
+            image = None
 
         if image:
             response_object = {
-            
                 'status': 'fail',
                 'message': 'Image already exists',
             }
             return response_object, 409
         
         image = Image_repo(classification=classification, long=long, lan=lan, 
-                                  created=created, bitString=bit_string)
+                                  created=created, bit_string=bit_string)
         
-        return Image_service.save_changes(image)
+        return Image_service.save_changes(image, "uccessfully uploaded an image to the atabase")
 
     def Delete_image(id: str):
         return ""
@@ -47,13 +46,13 @@ class Image_service():
         # return None
 
         
-    def save_changes(data: Image_repo) -> Tuple[Dict[str, str], int]:
+    def save_changes(data: Image_repo, message) -> Tuple[Dict[str, str], int]:
         db.session.add(data)
         db.session.commit()
 
         response_object = {
             'status': 'success',
-            'message': 'Successfully registered.',
+            'message': message,
         }
         return response_object, 201
     
