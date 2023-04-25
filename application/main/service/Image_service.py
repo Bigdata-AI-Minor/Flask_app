@@ -1,6 +1,6 @@
 from ..model.Image import Image
 from ..Database.Image_repo import db
-from ..Database import Image_repo
+from application.main.Database.Image_repo import Image_repo
 from typing import Dict, Tuple
 
 class Image_service():
@@ -15,8 +15,14 @@ class Image_service():
         lan = data['lan']
         created = data['created']
 
-        if Image_repo.query.filter_by(bit_string=bit_string).first():
+        # image = db.session.query(Image_repo).filter(bit_string=bit_string).one()
+        # image = Image_repo.db.session.query.filter_by(bit_string=bit_string).first()
+
+        image = Image_repo.query.filter_by(bit_string=bit_string).first_or_404()
+
+        if image:
             response_object = {
+            
                 'status': 'fail',
                 'message': 'Image already exists',
             }
