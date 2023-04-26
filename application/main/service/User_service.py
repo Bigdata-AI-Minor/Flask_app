@@ -1,5 +1,5 @@
 from ..model.User import User
-from ..Database.User_repo import db
+from ..model.User import db
 
 class User_service():
 

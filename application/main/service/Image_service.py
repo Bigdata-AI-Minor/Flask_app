@@ -1,5 +1,5 @@
 from ..model.Image import Image
-from ..Database.Image_repo import db
+from ..model.Image import db
 
 class Image_service():
 
