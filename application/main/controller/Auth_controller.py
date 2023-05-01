@@ -19,7 +19,6 @@ class Login_controller(Resource):
 
 @api.route('/logout', methods=["POST"])
 class Logout_controller(Resource):
-
     @api.doc('Logout user.')
     def post():
         data=request.json

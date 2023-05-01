@@ -1,4 +1,5 @@
-from .. import db
+from .. import db,flask_bcrypt
+
 
 class User(db.Model):
     __tablename__="User"
@@ -7,3 +8,5 @@ class User(db.Model):
     Name=db.Column(db.String(50), unique=True)
     Password=db.Column(db.String(100), nullable=False)
     Role=db.Column(db.Integer, nullable=False)
+    Jwt_token=db.Column(db.String(50), unique=True)
+  
