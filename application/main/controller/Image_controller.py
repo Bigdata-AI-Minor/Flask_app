@@ -26,16 +26,21 @@ class Image_controller(Resource):
         if request.method == "GET":
             return Image_service.get_image(None)
         
-@api.route('/<int:id>', methods=["PUT", "GET", "DELETE"])
-class Image_id_controller(Resource):
+@api.route('/<int:id>/<int:classification>', methods=["PUT"])
+class Image_id_update_controller(Resource):
 
     @api.doc('Update image entity.')
-    def put(id: int):
-        data=request.json
+    def put(self, id: int, classification: int):
+        if request.method == 'PUT':
+            return Image_service.Edit_image(id, classification)
+        
+@api.route('/<int:id>', methods=["GET", "DELETE"])  
+class Image_id_controller(Resource):
 
-    @api.doc('Create image entity.')
-    def delete(id: int):
-        data=request.json
+    @api.doc('Delete image entity.')
+    def delete(self, id: int):
+        if request.method == 'DELETE':
+            return Image_service.Delete_image(id)
 
     @api.doc('Get image entity by id.')
     def get(id: int):

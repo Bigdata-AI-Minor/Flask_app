@@ -1,5 +1,7 @@
 import base64
 import imghdr
+
+from flask import request
 from ..model.Image import Image
 from ..model.Image import db
 from application.main.model.Image import Image
@@ -54,11 +56,31 @@ class Image_service():
         return Image_service.save_changes(image, "successfully uploaded an image to the database")
 
     def Delete_image(id: str):
-        return ""
 
-    def Edit_image(id:  str, image: Image):
+        image = Image.query.filter_by(id=id).first_or_404()
+        if request.method == 'DELETE':
+            db.session.delete(image)
+            db.session.commit()
+        #db.session.delete(Image.query.filter_by(id=id).first())
+
+        response_object = {
+        'status': 'success',
+        'message': 'Successfully deleted a image.',
+        }
+        return response_object, 201
+
+    def Edit_image(id:  str, classification: int):
         # TODO edit classification
-        return ""
+        if id:
+            image = Image.query.filter_by(id=id).first_or_404()
+            image.classification = classification
+            db.session.commit()
+
+        response_object = {
+        'status': 'success',
+        'message': 'Successfully updated the image.',
+        }
+        return response_object, 201
 
     def get_image(id: str):
         # return None
