@@ -20,6 +20,7 @@ class Image_controller(Resource):
             return Image_service.Create_image(data)
     
     @api.doc('Get image entities.')
+    @api.marshal_list_with(image_dto, envelope='data')
     def get(self):
         if request.method == "GET":
             return Image_service.get_image(None)

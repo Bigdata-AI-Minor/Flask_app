@@ -26,7 +26,6 @@ class Image_service():
         # if not return error
 
         # TODO check if the bit_string is a valid 64 bit string
-        # TODO classifiation object forceren
 
         if image:
             response_object = {
@@ -44,15 +43,14 @@ class Image_service():
         return ""
 
     def Edit_image(id:  str, image: Image):
+        # TODO edit classification
         return ""
 
     def get_image(id: str):
-        return None
+        # return None
         if id:
             images = Image.query.filter_by(id=id).first_or_404()
-        images =  Image.query.all()
-        image_dicts = [image.__dict__ for image in images]
-        return image_dicts
+        return Image.query.all()
 
     def save_changes(data: Image, message) -> Tuple[Dict[str, str], int]:
         db.session.add(data)
