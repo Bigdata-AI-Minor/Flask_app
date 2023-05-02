@@ -1,6 +1,8 @@
 from ..model.Image import Image
 from ..model.Image import db
 from application.main.model.Image import Image
+from application.main.model.Classification import Classification
+
 from typing import Dict, Tuple
 
 class Image_service():
@@ -36,19 +38,22 @@ class Image_service():
         image = Image(classification=classification, long=long, lan=lan, 
                                   created=created, bit_string=bit_string)
         
-        return Image_service.save_changes(image, "uccessfully uploaded an image to the atabase")
+        return Image_service.save_changes(image, "successfully uploaded an image to the database")
 
     def Delete_image(id: str):
         return ""
-    
+
     def Edit_image(id:  str, image: Image):
         return ""
 
     def get_image(id: str):
+        return None
         if id:
-            return Image.query.filter_by(id=id).first_or_404()
-        return Image.query.all()
-    
+            images = Image.query.filter_by(id=id).first_or_404()
+        images =  Image.query.all()
+        image_dicts = [image.__dict__ for image in images]
+        return image_dicts
+
     def save_changes(data: Image, message) -> Tuple[Dict[str, str], int]:
         db.session.add(data)
         db.session.commit()
