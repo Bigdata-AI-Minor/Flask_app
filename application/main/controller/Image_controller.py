@@ -7,6 +7,7 @@ dto = Image_DTO()
 
 api = dto.api
 image_dto = dto.image_dto
+image_id_dto = dto.image_id_dto
 
 @api.route('/', methods=["POST", "GET"])
 class Image_controller(Resource):
@@ -20,7 +21,7 @@ class Image_controller(Resource):
             return Image_service.Create_image(data)
     
     @api.doc('Get image entities.')
-    @api.marshal_list_with(image_dto, envelope='data')
+    @api.marshal_list_with(image_id_dto, envelope='data')
     def get(self):
         if request.method == "GET":
             return Image_service.get_image(None)

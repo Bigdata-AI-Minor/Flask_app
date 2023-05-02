@@ -22,8 +22,7 @@ class Image_service():
         except:
             image = None
 
-        # TODO get all classifications and check if the classification is in the list
-        # if not return error
+        # TODO check if the classification is in the list of classifications
 
         # TODO check if the bit_string is a valid 64 bit string
 
