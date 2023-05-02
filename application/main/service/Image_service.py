@@ -1,8 +1,10 @@
+import base64
+import imghdr
 from ..model.Image import Image
 from ..model.Image import db
 from application.main.model.Image import Image
 from application.main.model.Classification import Classification
-
+from application.main.service.Classification_service import Classification_service
 from typing import Dict, Tuple
 
 class Image_service():
@@ -22,17 +24,30 @@ class Image_service():
         except:
             image = None
 
-        # TODO check if the classification is in the list of classifications
-
-        # TODO check if the bit_string is a valid 64 bit string
-
         if image:
             response_object = {
                 'status': 'fail',
                 'message': 'Image already exists',
             }
             return response_object, 409
+
+
+        classification_names = [classification.classification for classification in Classification_service.get_classifications()]
+        if classification not in classification_names:
+            response_object = {
+                'status': 'fail',
+                'message': 'Classification does not exist',
+            }
+            return response_object, 409
+
+        if not Image_service.is_base64_image(bit_string):
+            response_object = {
+                'status': 'fail',
+                'message': 'bit_string is not a base64 image',
+            }
+            return response_object, 409
         
+
         image = Image(classification=classification, long=long, lan=lan, 
                                   created=created, bit_string=bit_string)
         
@@ -60,4 +75,14 @@ class Image_service():
             'message': message,
         }
         return response_object, 201
+
+    def is_base64_image(s):
+        try:
+            decoded_data = base64.b64decode(s)
+            if imghdr.what(None, decoded_data) is not None:
+                return True
+            else:
+                return False
+        except:
+            return False
     

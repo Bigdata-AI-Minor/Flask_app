@@ -22,4 +22,4 @@ class Classification_controller(Resource):
     @api.marshal_list_with(classification_dto, envelope='data')
     def get(self):
         if request.method == "GET":
-            return Classification_service.get_classifications(None)
+            return Classification_service.get_classifications()
