@@ -21,4 +21,5 @@ class Login_controller(Resource):
 class Logout_controller(Resource):
     @api.doc('Logout user.')
     def post():
-        data=request.json
+        auth_header = request.headers.get('Authorization')
+        return Auth_service.logout(auth_header)

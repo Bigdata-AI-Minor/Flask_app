@@ -2,23 +2,26 @@ from flask import request
 from flask_restx import Namespace, fields, Resource
 from ..service.User_service import User_service
 from ..model.DTO.User_DTO import User_DTO
+from typing import Dict, Tuple
 
-api=Namespace('Users', description='User related operations')
-user_dto=api.model(User_DTO, {
-    'name': fields.String(required=True, description='The name of the user.'),
-    'userRoll': fields.String(required=True, description='The user password.'),
-})
+
+dto = User_DTO()
+api = dto.api
+user_dto = dto.user_dto
 
 @api.route('/', methods=["POST", "GET"])
 class User_controller(Resource):
 
     @api.doc('Create user')
-    def post():
+    @api.expect(user_dto,validate=True)
+    def post(self) -> Tuple[Dict[str, str], int]:
         data=request.json
+        return User_service.create_user(data)
 
     @api.doc('Get users.')
-    def get():
-        data=request.json
+    @api.marshal_list_with(user_dto, envelope='data')
+    def get(self):
+        return User_service.get_users()
 
 @api.route('/<int:id>', methods=["DELETE", "PUT", "GET"])
 class User_id_controller(Resource):
