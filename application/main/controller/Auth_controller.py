@@ -7,13 +7,12 @@ from typing import Dict, Tuple
 dto = Auth_DTO()
 
 api = dto.api
-auth_dto = dto.auth_dto
 
 
 @api.route('/login', methods=["POST"])
 class Login_controller(Resource):
     @api.doc('Login user.')
-    @api.expect(auth_dto,validate=True)
+    @api.expect(dto.auth_dto,validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
         return Auth_service.login(request.json)
 

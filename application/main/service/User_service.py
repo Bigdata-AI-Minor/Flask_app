@@ -1,9 +1,9 @@
 from ..model.User import User
 from..service.JWT_service import JWT_service
 from ..model.User import db
-from typing import Dict, Tuple
-import uuid
-import datetime
+from typing import Dict, Tuple, Any
+from ..responses.user.User_Reponse import User_Response
+
 
 class User_service():
 
@@ -20,36 +20,47 @@ class User_service():
             db.session.commit()
             return JWT_service.generate_JWT_token(new_user)
         else:
-            response_object = {
-                'status': 'fail',
-                'message': 'User already exists. Please Log in.',
-            }
+            response_object = User_Response('fail','User already exists. Please Log in.')
+        return response_object.user_response(409) 
 
-        return response_object, 409  
-
-    def delete_user(id: str):
-        return ""
-    
-    def edit_user(id:  str, image: User):
-        return ""
-
-    def get_user_by_id(id: str):
+    def delete_user_by_id(id: int):
         try:
-            return User.query.filter_by(name=db.get('Id')).first()
+            user = User.query.filter_by(Id=id).first()
+            db.session.delete(user)
+            db.session.commit()
+            response_object = User_Response('success','Successfully deleted a user')
+            return response_object.user_response(201)
         except Exception as exception:
-            return exception
-    
-    def get_user_by_name(id: str):
+            response_object = User_Response('fail', f'User id does not exist: {exception}')
+            return response_object.user_response(409)
+        
+    def edit_user_by_Id(id: int, data: Dict[str, Any]):
+        user = User.query.filter_by(Id=id).first()
+        print(data)
+        if user:
+            user.Username=data['Username']
+            user.Password=data['Password']
+            user.Role=data['Role']
+            db.session.commit()
+        
+        response_object = User_Response('success','Successfully updated a user')
+        return response_object.user_response(201)
+
+
+    def get_user_by_id(id: int):
         try:
-            return User.query.filter_by(name=db.get('username')).first()
+            return User.query.filter_by(Id=id).first()
         except Exception as exception:
-            return exception
+            response_object = User_Response('fail', f'Something went wrong {exception}')
+            return response_object.user_response(409)  
+    
     
     def get_users():
         try:
             return User.query.all()
         except Exception as exception:
-            return exception
+            response_object = User_Response('fail', f'Something went wrong {exception}')
+            return response_object.user_response(409)
 
         
     

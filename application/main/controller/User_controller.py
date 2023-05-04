@@ -7,19 +7,17 @@ from typing import Dict, Tuple
 
 dto = User_DTO()
 api = dto.api
-user_dto = dto.user_dto
 
 @api.route('/', methods=["POST", "GET"])
 class User_controller(Resource):
 
     @api.doc('Create user')
-    @api.expect(user_dto,validate=True)
+    @api.expect(dto.user_create_dto,validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
-        data=request.json
-        return User_service.create_user(data)
+        return User_service.create_user(request.json)
 
     @api.doc('Get users.')
-    @api.marshal_list_with(user_dto, envelope='data')
+    @api.marshal_list_with(dto.user_dto, envelope='data')
     def get(self):
         return User_service.get_users()
 
@@ -27,13 +25,16 @@ class User_controller(Resource):
 class User_id_controller(Resource):
 
     @api.doc('Update user entity by id.')
-    def put(id: int):
-        data=request.json
+    @api.expect(dto.user_create_dto,validate=True)
+    def put(self, id: int) -> Tuple[Dict[str, str], int]:
+        return User_service.edit_user_by_Id(id,request.json)
 
     @api.doc('Delete user entity by id.')
-    def delete(id: int):
-        data=request.json
+    @api.marshal_list_with(dto.user_dto, envelope='data')
+    def delete(self,id: int):
+        return User_service.delete_user_by_id(id)
 
     @api.doc('Get user entity by id.')
-    def get(id: int):
-        data=request.json
+    @api.marshal_list_with(dto.user_dto, envelope='data')
+    def get(self, id: int):
+        return User_service.get_user_by_id(id)

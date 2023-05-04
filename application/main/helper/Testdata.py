@@ -8,8 +8,8 @@ class Testdata():
     # populate db with users
     @staticmethod
     def populate_database():
-        hashed_password = flask_bcrypt.generate_password_hash('test2').decode('utf-8')
-        admin_user = User(Username='test2', Password=hashed_password, Role=User_roll.ADMIN.value)
+        hashed_password = flask_bcrypt.generate_password_hash('test23').decode('utf-8')
+        admin_user = User(Username='test23', Password=hashed_password, Role=User_roll.ADMIN.value)
         db.session.add(admin_user)
         db.session.commit()
             

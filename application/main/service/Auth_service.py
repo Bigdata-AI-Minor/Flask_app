@@ -10,9 +10,6 @@ class Auth_service():
 
     def login(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         try:
-            print(data.get('Username'))
-            print(Username=data.get('Username'))
-            print(data.get('Username'))
             user = User.query.filter_by(Username=data.get('Username')).first()
             print(user)
        

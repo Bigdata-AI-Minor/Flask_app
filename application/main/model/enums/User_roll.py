@@ -1,5 +1,5 @@
 from enum import IntEnum
 
 class User_roll(IntEnum):
-    ADMIN = 0
-    VOLUNTEER = 1
+    VOLUNTEER = 0
+    ADMIN = 1

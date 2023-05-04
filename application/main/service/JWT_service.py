@@ -4,11 +4,9 @@ from ..model.User import User
 from typing import Dict, Tuple
 from ..config import key
 import datetime
+from ..responses.user.User_Reponse import User_Response
 
 class JWT_service():
-
-    def __init__(self) -> None:
-        pass
 
     # create a JWT token
     @staticmethod
@@ -32,20 +30,16 @@ class JWT_service():
     
     def generate_JWT_token(user: User) -> Tuple[Dict[str, str], int]:
         try:
-        # generate the auth token
-            auth_token = User.encode_auth_token(user.id)
+            auth_token = JWT_service.encode_JWT_token(user.id)
             response_object = {
             'status': 'success',
             'message': 'Successfully registered.',
             'Authorization': auth_token.decode()
             }
             return response_object, 201
-        except Exception as e:
-            response_object = {
-            'status': 'fail',
-            'message': 'Some error occurred. Please try again.'
-        }
-        return response_object, 401
+        except Exception as exception:
+            response_object = User_Response('fail',f'Some error occurred. Please try again.:{exception}')
+        return response_object.user_response(401)
         
 
 

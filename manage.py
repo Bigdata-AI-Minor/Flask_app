@@ -18,15 +18,11 @@ migrate = Migrate(app, db)
 # create tables in the database that do not exists uncomment '# test_service.populate_database()' to populate database with info
 migrate.db.create_all()
 
-# populate db with users
-def populate_database():
-    admin_user = User(Username='admin2', Password='password', Role=User_roll.ADMIN.value)
-    volunteer_user = User(Name='volunteer', Password='password', Role=User_roll.VOLUNTEER.value,Jwt_token='123')
-    db.session.add_all([admin_user])
-    db.session.commit()
-    return
+# populate db
+# test_service = Testdata()
+migrate.db.create_all()
+# test_service.populate_database()
 
-populate_database()
 
 @app.shell_context_processor
 def make_shell_context():
