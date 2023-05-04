@@ -6,9 +6,13 @@ from ..responses.user.User_Reponse import User_Response
 
 
 class User_service():
-
     def create_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         user = User.query.filter_by(Username=data['Username']).first()
+
+        # TODO test the function if it checks if the entered password is valid
+        if not User.is_valid_password(data['Password']):
+            response_object = User_Response('fail','Entered password is not valid')
+            return response_object.user_response(409) 
         if not user:
             new_user = User(
                 Username=data['Username'],
@@ -28,7 +32,7 @@ class User_service():
             db.session.delete(user)
             db.session.commit()
             response_object = User_Response('success',f'Successfully deleted user {user.Username}')
-            return response_object.user_response(201)
+            return response_object.user_response(200)
         except Exception as exception:
             response_object = User_Response('fail', f'User id:{id} does not exist: {exception}')
             return response_object.user_response(409)
@@ -41,7 +45,7 @@ class User_service():
             user.Role=data['Role']
             db.session.commit()
         response_object = User_Response('success',f'Successfully updated user {user.Username}')
-        return response_object.user_response(201)
+        return response_object.user_response(200)
 
     def get_user_by_id(id: int):
         try:
@@ -54,8 +58,8 @@ class User_service():
         try:
             return User.query.all()
         except Exception as exception:
-            response_object = User_Response('fail', f'Something went wrong: {exception}')
-            return response_object.user_response(409)
+            response_object = User_Response('fail', f'Internal server error: {exception}')
+            return response_object.user_response(500)
 
         
     

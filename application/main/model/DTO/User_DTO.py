@@ -9,9 +9,7 @@ class User_DTO():
     })
       
       user_create_dto = api.model('User', {
-        'Username': fields.String(attribute='Username', required=True, description='The username of the user.'),
         'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
-        'Role': fields.Integer(attribute='Role', required=True, description='The role of the user'),
     })
       
       

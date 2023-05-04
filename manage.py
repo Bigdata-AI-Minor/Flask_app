@@ -16,11 +16,9 @@ app.app_context().push()
 
 migrate = Migrate(app, db)
 # create tables in the database that do not exists uncomment '# test_service.populate_database()' to populate database with info
-migrate.db.create_all()
-
+# migrate.db.create_all()
 # populate db
 # test_service = Testdata()
-migrate.db.create_all()
 # test_service.populate_database()
 
 

@@ -1,8 +1,9 @@
 from flask import request
-from flask_restx import Namespace, fields, Resource
+from flask_restx import Resource
 from ..service.User_service import User_service
 from ..model.DTO.User_DTO import User_DTO
 from typing import Dict, Tuple
+from ..helper.auth_helper import Auth_Helper 
 
 
 dto = User_DTO()
@@ -10,13 +11,14 @@ api = dto.api
 
 @api.route('/', methods=["POST", "GET"])
 class User_controller(Resource):
-
+    
     @api.doc('Create user')
     @api.expect(dto.user_create_dto,validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
         return User_service.create_user(request.json)
-
+    
     @api.doc('Get users.')
+    @Auth_Helper.jwt_token_required
     @api.marshal_list_with(dto.user_dto, envelope='data')
     def get(self):
         return User_service.get_users()

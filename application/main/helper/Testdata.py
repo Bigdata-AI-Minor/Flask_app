@@ -12,5 +12,4 @@ class Testdata():
         admin_user = User(Username='test23', Password=hashed_password, Role=User_roll.ADMIN.value)
         db.session.add(admin_user)
         db.session.commit()
-            
     
