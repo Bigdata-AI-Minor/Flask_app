@@ -7,3 +7,7 @@ class Classification_DTO():
         'id': fields.Integer(required=True, description='The classification id'),
         'classification': fields.String(required=True, description='The classification name'),
     })
+
+    # classification_dto = api.model('Classification', {
+    #     'classification': fields.String(required=True, description='The classification name'),
+    # })

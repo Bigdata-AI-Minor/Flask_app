@@ -15,16 +15,13 @@ class Image_controller(Resource):
     @api.expect(image_dto)
     @api.doc('Create image entity.')
     def post(self):
-        if request.method == "POST":
-            data=request.json
-
-            return Image_service.Create_image(data)
+        data=request.json
+        return Image_service.Create_image(data)
     
     @api.doc('Get image entities.')
     @api.marshal_list_with(image_id_dto, envelope='data')
     def get(self):
-        if request.method == "GET":
-            return Image_service.get_image(None)
+        return Image_service.get_image(None)
         
 @api.route('/<int:id>', methods=["PUT", "GET", "DELETE"])
 class Image_id_controller(Resource):
@@ -39,5 +36,4 @@ class Image_id_controller(Resource):
 
     @api.doc('Get image entity by id.')
     def get(id: int):
-        if request.method == "GET":
-            return Image_service.get_image(id)
+        return Image_service.get_image(id)

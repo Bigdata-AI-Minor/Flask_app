@@ -63,7 +63,7 @@ class Image_service():
     def get_image(id: str):
         # return None
         if id:
-            images = Image.query.filter_by(id=id).first_or_404()
+            return Image.query.filter_by(id=id).first_or_404()
         return Image.query.all()
 
     def save_changes(data: Image, message) -> Tuple[Dict[str, str], int]:
