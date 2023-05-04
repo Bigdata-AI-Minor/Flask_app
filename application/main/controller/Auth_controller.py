@@ -5,7 +5,6 @@ from ..model.DTO.Auth_DTO import Auth_DTO
 from typing import Dict, Tuple
     
 dto = Auth_DTO()
-
 api = dto.api
 
 

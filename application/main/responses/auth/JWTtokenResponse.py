@@ -1,13 +1,16 @@
 import json
 
 class JWTtokenResponse:
-    def __init__(self, status, message,httpstatuscode):
+    def __init__(self, status, message,Authorization):
         self.status = status
         self.message = message
-        self.httpstatuscode = httpstatuscode
+        self.Authorization = Authorization
 
-class JWTtokenResponseEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, JWTtokenResponse):
-            return {'status':obj.status,'message':obj.message,'httpstatuscode':obj.httpstatuscode}
-        return super().default(obj)
+    def auth_response(self,httpstatuscode: int) -> dict:
+        response_object = {
+            'status': self.status,
+            'message': self.message,
+            'Authorization': self.Authorization,
+        }
+        return response_object, httpstatuscode  
+

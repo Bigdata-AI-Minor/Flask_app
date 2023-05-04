@@ -30,7 +30,6 @@ class User_id_controller(Resource):
         return User_service.edit_user_by_Id(id,request.json)
 
     @api.doc('Delete user entity by id.')
-    @api.marshal_list_with(dto.user_dto, envelope='data')
     def delete(self,id: int):
         return User_service.delete_user_by_id(id)
 
