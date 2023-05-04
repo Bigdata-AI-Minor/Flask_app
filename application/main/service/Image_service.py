@@ -34,21 +34,23 @@ class Image_service():
             return response_object, 409
 
 
-        classification_names = [classification.classification for classification in Classification_service.get_classifications()]
-        if classification not in classification_names:
+        classification_ids = [classification.id for classification in Classification_service.get_classifications()]
+        if classification not in classification_ids:
             response_object = {
                 'status': 'fail',
                 'message': 'Classification does not exist',
             }
             return response_object, 409
 
-        if not Image_service.is_base64_image(bit_string):
-            response_object = {
-                'status': 'fail',
-                'message': 'bit_string is not a base64 image',
-            }
-            return response_object, 409
-        
+        # if not Image_service.is_base64_image(bit_string):
+        #     response_object = {
+        #         'status': 'fail',
+        #         'message': 'bit_string is not a base64 image',
+        #     }
+        #     return response_object, 409
+
+        # TODO controlleer of dataime correct formaat is 
+
 
         image = Image(classification=classification, long=long, lan=lan, 
                                   created=created, bit_string=bit_string)
@@ -69,7 +71,7 @@ class Image_service():
         }
         return response_object, 201
 
-    def Edit_image(id:  str, classification: int):
+    def Edit_image(id:  int, classification: int):
         # TODO edit classification
         if id:
             image = Image.query.filter_by(id=id).first_or_404()
@@ -82,11 +84,25 @@ class Image_service():
         }
         return response_object, 201
 
-    def get_image(id: str):
-        # return None
-        if id:
+    def get_image(id: int):
+        try:
             return Image.query.filter_by(id=id).first_or_404()
-        return Image.query.all()
+        except:
+            response_object = {
+            'status': 'failed',
+            'message': 'no image with this id',
+            }
+            return response_object, 404
+            
+    def get_images():
+        try: 
+            return Image.query.all()
+        except:
+            response_object = {
+            'status': 'failed',
+            'message': 'internal server error',
+            }
+            return response_object, 500
 
     def save_changes(data: Image, message) -> Tuple[Dict[str, str], int]:
         db.session.add(data)

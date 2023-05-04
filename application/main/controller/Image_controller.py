@@ -17,11 +17,12 @@ class Image_controller(Resource):
     def post(self):
         data=request.json
         return Image_service.Create_image(data)
+        # convert bitstring in backend (link)
     
     @api.doc('Get image entities.')
     @api.marshal_list_with(image_id_dto, envelope='data')
     def get(self):
-        return Image_service.get_image(None)
+        return Image_service.get_images()
         
 @api.route('/<int:id>/<int:classification>', methods=["PUT"])
 class Image_id_update_controller(Resource):
@@ -40,5 +41,6 @@ class Image_id_controller(Resource):
             return Image_service.Delete_image(id)
 
     @api.doc('Get image entity by id.')
-    def get(id: int):
+    @api.marshal_list_with(image_id_dto, envelope='data')
+    def get(self, id: int):
         return Image_service.get_image(id)
