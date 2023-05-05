@@ -12,4 +12,11 @@ class User_DTO():
         'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
     })
       
+      user_admin_edit_dto = api.model('User', {
+        'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
+        'Username': fields.String(attribute='Username', required=True, description='The username of the user.'),
+        'Role': fields.Integer(attribute='Role', required=True, description='The role of the user'),
+    })
+      
+      
       

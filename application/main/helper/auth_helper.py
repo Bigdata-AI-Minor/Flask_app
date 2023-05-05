@@ -1,15 +1,16 @@
-from application.main import db
 from functools import wraps
 from typing import Callable
 from ..service.Auth_service import Auth_service
+from ..model.DTO.User_DTO import User_DTO
+from application.main.model.enums.User_roll import User_roll
 from flask import request
-from ..responses.auth.JWTtokenResponse import JWTtokenResponse
+from ..responses.user.User_Reponse import User_Response
 class Auth_Helper():
-
+    
+    # check if the user has a valid jwt_token : endpoints can only be used then
     def jwt_token_required(f) -> Callable:
         @wraps(f)
         def decorated(*args, **kwargs):
-
             data, status = Auth_service.get_logged_in_user(request) 
             jwt_token = data.get('data')
             if not jwt_token:
@@ -17,17 +18,35 @@ class Auth_Helper():
             return f(*args, **kwargs)
         return decorated
     
-    def admin_token_required(f: Callable) -> Callable:
-        @wraps(f)
-        def decorated(*args, **kwargs):
-            data, status = Auth_service.get_logged_in_user(request)
-            token = data.get('data')
-            if not token:
-                return data, status
-            admin = token.get('admin')
-            if not admin:
-                response_object = JWTtokenResponse('fail','admin token required')
-                return response_object.auth_response(401)
-            return f(*args, **kwargs)
-        return decorated
+    # check if the user has sufficient rights 
+    def verify_rights(required_role: int) -> Callable:
+        def decorator(f: Callable) -> Callable:
+            @wraps(f)
+            def decorated(*args, **kwargs):
+                user_data, status = Auth_service.get_logged_in_user(request)
+                if status != 200:
+                    return user_data, status
+                user_role = user_data['data']['admin']
+                if user_role != User_roll.ADMIN.value:
+                    response_json = User_Response("fail","Insufficient privileges")
+                    return response_json.user_response(403) 
+                return f(*args, **kwargs)
+            return decorated
+        return decorator
+    
+    def conditional_api_expect(dto : User_DTO, api ,envelope='data') -> Callable:
+        def decorator(f: Callable) -> Callable:
+            @wraps(f)
+            def decorated(*args, **kwargs):
+                user_data, status = Auth_service.get_logged_in_user(request)
+                if status != 200:
+                    return user_data, status
+                user_role = user_data['data']['admin']
+                if user_role == User_roll.ADMIN.value:
+                    return User_DTO.api.expect(dto.user_admin_edit_dto, envelope=envelope)(f)(*args, **kwargs)
+                else:
+                    return f(*args, **kwargs)
+            return decorated
+        return decorator
+    
         

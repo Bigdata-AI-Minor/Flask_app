@@ -61,3 +61,11 @@ class Auth_service():
             response_object = User_Response("fail",'provide a valid authentication token')
             return response_object.user_response(401)
         
+    @staticmethod
+    def verify_user_rights(new_request):
+        auth_token = new_request.headers.get('Authorization') 
+        if auth_token:
+            response = JWT_service.validate_JWT(auth_token)
+            user = User.query.filter_by(Id=response).first()
+            return user
+        
