@@ -8,6 +8,7 @@ class User(db.Model):
     Username=db.Column(db.String(50), unique=True)
     Password=db.Column(db.String(100), nullable=False)
     Role=db.Column(db.Integer, nullable=False)
+    _current_user = None
 
     def __init__(self, Username, Password, Role):
         self.Username = Username
@@ -34,6 +35,14 @@ class User(db.Model):
         any(char.islower() for char in password),
         any(char in "!@#$%^&*()-_=+[]{};:,.<>/?`~\\" for char in password)
     ])
+    
+    @staticmethod
+    def get_current_user():
+        return User._current_user
+    
+    @staticmethod
+    def set_current_user(user):
+        User._current_user = user
 
 
   

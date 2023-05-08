@@ -14,7 +14,7 @@ class User_Response:
     def user_response_logged_in_user(self,user,httpstatuscode: int) -> dict:
         response_object = {
             'status': self.status,
-            'data': {'user_id': user.Id, 'admin': user.Role}
+            'data': {'user_id': user.Id, 'role': user.Role}
         }
         return response_object, httpstatuscode   
 

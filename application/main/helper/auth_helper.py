@@ -19,34 +19,33 @@ class Auth_Helper():
         return decorated
     
     # check if the user has sufficient rights 
-    def verify_rights(required_role: int) -> Callable:
+    def authorize(required_role: int) -> Callable:
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated(*args, **kwargs):
                 user_data, status = Auth_service.get_logged_in_user(request)
                 if status != 200:
                     return user_data, status
-                user_role = user_data['data']['admin']
+                user_role = user_data['data']['role']
                 if user_role != User_roll.ADMIN.value:
-                    response_json = User_Response("fail","Insufficient privileges")
+                    response_json = User_Response("fail","Insufficient privilege")
                     return response_json.user_response(403) 
                 return f(*args, **kwargs)
             return decorated
         return decorator
     
-    def conditional_api_expect(dto : User_DTO, api ,envelope='data') -> Callable:
+    # is obsolete can maybe be used in the future
+    def conditional_api_expect(dto: User_DTO, validate: bool = True) -> Callable:
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated(*args, **kwargs):
                 user_data, status = Auth_service.get_logged_in_user(request)
                 if status != 200:
                     return user_data, status
-                user_role = user_data['data']['admin']
+                user_role = user_data['data']['role']
                 if user_role == User_roll.ADMIN.value:
-                    return User_DTO.api.expect(dto.user_admin_edit_dto, envelope=envelope)(f)(*args, **kwargs)
+                    return dto.api.expect(dto.user_admin_update, validate=validate)(f)(*args, **kwargs)
                 else:
                     return f(*args, **kwargs)
             return decorated
-        return decorator
-    
-        
+        return decorator       

@@ -8,15 +8,21 @@ class User_DTO():
         'Role': fields.Integer(attribute='Role', required=True, description='The role of the user'),
     })
       
-      user_create_dto = api.model('User', {
+      user_update_dto = api.model('UserUpdateNormalUser', {
         'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
     })
       
-      user_admin_edit_dto = api.model('User', {
+      user_admin_create = api.model('UserCreateforAdmin', {
         'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
         'Username': fields.String(attribute='Username', required=True, description='The username of the user.'),
-        'Role': fields.Integer(attribute='Role', required=True, description='The role of the user'),
     })
+      
+      user_admin_update = api.model('UserUpdate', {
+        'Password': fields.String(attribute='Password', required=True, description='The password of the user'),
+        'Username': fields.String(attribute='Username', required=True, description='The username of the user.'),
+        'Role': fields.String(attribute='Role', required=True, description='The Role of the user.'),
+    })
+      
       
       
       

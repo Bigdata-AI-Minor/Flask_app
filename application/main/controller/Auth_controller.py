@@ -18,6 +18,6 @@ class Login_controller(Resource):
 @api.route('/logout', methods=["POST"])
 class Logout_controller(Resource):
     @api.doc('Logout user.')
-    def post():
+    def post(self):
         auth_header = request.headers.get('Authorization')
         return Auth_service.logout(auth_header)

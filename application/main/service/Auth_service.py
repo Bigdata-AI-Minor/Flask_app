@@ -1,7 +1,6 @@
 from ..model.JWT import db
 from typing import Dict, Tuple
 from ..model.User import User
-from ..service.User_service import User_service
 from ..service.JWT_service import JWT_service
 from ..responses.auth.JWTtokenResponse import JWTtokenResponse
 from ..responses.user.User_Reponse import User_Response
@@ -15,35 +14,36 @@ class Auth_service():
             if user and user.check_password(data.get('Password')):
                 jwt_token = JWT_service.encode_JWT_token(user.Id)
                 if jwt_token:
+                    User.set_current_user(user)
                     response_json = JWTtokenResponse("Success","Successfully logged in",jwt_token.decode())
                     return response_json.jwt_auth_response(200)
             else:
-                response_json = JWTtokenResponse("fail","invalid credentials")
-                response_json.auth_response(401) 
+                response_json = User_Response("fail","invalid credentials")
+                response_json.user_response(401) 
                 return user
         except Exception:
-             response_json = JWTtokenResponse("fail","try again")
-             return response_json.auth_response(500)
+             response_json = User_Response("fail","try again")
+             return response_json.user_response(500)
         
-
-        
-    # TODO test loggin out
+    # TODO logout function not working correctly
     @staticmethod
-    def logout_user(data: str) -> Tuple[Dict[str, str], int]:
+    def logout(data: str) -> Tuple[Dict[str, str], int]:
         if data:
-            auth_token = data.split(" ")[1]
+            auth_token = data
         else:
             auth_token = ''
         if auth_token:
             response = JWT_service.validate_JWT(auth_token)
             if not isinstance(response, str):
-                return 
+                 response_object = User_Response("Success",'User logged out successfully')
+                 return response_object.user_response(200)
             else:
-                response_object = JWTtokenResponse("fail",response)
-                return response_object.auth_response(401)
+                response_object = User_Response("fail",response)
+                return response_object.user_response(401)
         else:
-            response_object = JWTtokenResponse("fail",'provide a valid authentication token')
-            return response_object.auth_response(403)
+            response_object = User_Response("fail",'provide a valid authentication token')
+            return response_object.user_response(403)
+        
     
     # get the logged in user
     @staticmethod
@@ -60,12 +60,14 @@ class Auth_service():
         else:
             response_object = User_Response("fail",'provide a valid authentication token')
             return response_object.user_response(401)
-        
+    
     @staticmethod
-    def verify_user_rights(new_request):
+    def get_current_user_role(new_request):
         auth_token = new_request.headers.get('Authorization') 
-        if auth_token:
-            response = JWT_service.validate_JWT(auth_token)
-            user = User.query.filter_by(Id=response).first()
-            return user
+        response = JWT_service.validate_JWT(auth_token)
+        user = User.query.filter_by(Id=response).first()
+        print(user.Role)
+        return user.Role
+    
+
         
