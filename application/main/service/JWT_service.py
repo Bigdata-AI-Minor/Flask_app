@@ -19,7 +19,7 @@ class JWT_service():
             }
             return jwt.encode(payload,key,algorithm='HS256')
         except Exception as exception:
-            response_object = User_Response('fail',f'Some error occurred. Please try again.:{exception}')
+            response_object = User_Response('fail',f'Some error occurred. Please try again.')
             return response_object.user_response(401)
 
     # validate and decode the jwt_ token
@@ -29,7 +29,7 @@ class JWT_service():
             payload = jwt.decode(token, key, algorithms=["HS256"])
             return payload['sub']
         except Exception as exception:
-            response_object = User_Response('fail',f'invalid token. :: {exception}')
+            response_object = User_Response('fail',f'invalid token.')
             return response_object.user_response(401)
     
     # generate jwt_token
@@ -39,7 +39,7 @@ class JWT_service():
             response_object = JWTtokenResponse('success','Successfully registered',auth_token.decode())
             return response_object.jwt_auth_response(201)
         except Exception as exception:
-            response_object = User_Response('fail',f'Some error occurred. Please try again.:{exception}')
+            response_object = User_Response('fail',f'Some error occurred. Please try again')
         return response_object.user_response(401)
         
 

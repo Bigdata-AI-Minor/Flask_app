@@ -38,7 +38,7 @@ class User_service():
             response_object = User_Response('success',f'Successfully deleted user {user.Username}')
             return response_object.user_response(200)
         except Exception as exception:
-            response_object = User_Response('fail', f'User id:{id} does not exist: {exception}')
+            response_object = User_Response('fail', f'User id:{id} does not exist')
             return response_object.user_response(409)
     
     # TODO check the user rights and save the input based on that
@@ -60,7 +60,7 @@ class User_service():
         try:
             return User.query.filter_by(Id=id).first()
         except Exception as exception:
-            response_object = User_Response('fail', f'id:{id} does not exist: {exception}')
+            response_object = User_Response('fail', f'id:{id} does not exist')
             return response_object.user_response(409)  
     
     def get_users():
