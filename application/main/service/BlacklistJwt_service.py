@@ -11,7 +11,6 @@ class BlacklistJwt_Service():
         try:
             db.session.add(blacklist_token)
             db.session.commit()
-            print('hierboven is het opgeslagen in de database en hieronder is de response')
             response_json = JWTtokenResponse("Success","logged out")
             return response_json.jwt_auth_response(200)
         except Exception as exception:
