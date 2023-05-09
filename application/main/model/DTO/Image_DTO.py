@@ -20,3 +20,7 @@ class Image_DTO():
         'created': fields.String(attribute='created_at', required=True, description='The time created if the image taken.'),
         'bit_string': fields.String(attribute='bit_string', required=True, description='The the 64 bit string of the image.'),
     })
+
+    image_put_dto = api.model('image_put_dto', {
+        'classification': fields.Integer(attribute='classification', required=True, description='The classification(1 = plastic, 2 = cardboard, 3 = metal, 4 = other)'),
+                })

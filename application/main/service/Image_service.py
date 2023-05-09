@@ -72,7 +72,6 @@ class Image_service():
         return response_object, 201
 
     def Edit_image(id:  int, classification: int):
-        # TODO edit classification
         if id:
             image = Image.query.filter_by(id=id).first_or_404()
             image.classification = classification
@@ -82,7 +81,7 @@ class Image_service():
         'status': 'success',
         'message': 'Successfully updated the image.',
         }
-        return response_object, 201
+        return response_object, 200
 
     def get_image(id: int):
         try:
