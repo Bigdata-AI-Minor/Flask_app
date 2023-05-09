@@ -13,9 +13,9 @@ class User_service():
         user = User.query.filter_by(Username=data['Username']).first()
 
         # TODO test the function if it checks if the entered password is valid
-        # if not User.is_valid_password(data['Password']):
-        #     response_object = User_Response('fail','Entered password is not valid')
-        #     return response_object.user_response(409) 
+        if not User.is_valid_password(data['Password']):
+            response_object = User_Response('fail','Entered password is not valid')
+            return response_object.user_response(409) 
         
         if not user:
             new_user = User(

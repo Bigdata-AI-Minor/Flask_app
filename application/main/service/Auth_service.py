@@ -45,7 +45,7 @@ class Auth_service():
             return response_object.user_response(403)
         
     
-    # get the logged in user
+    # get the logged in user // de jwt token moet nog gedestroyed worden, dat kan gedaan worden door de huidige tijd naar beneden te plaatsen of het kan in de database opgeslagen worden
     @staticmethod
     def get_logged_in_user(new_request):
         auth_token = new_request.headers.get('Authorization') 

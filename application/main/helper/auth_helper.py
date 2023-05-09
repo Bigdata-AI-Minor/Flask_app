@@ -18,7 +18,7 @@ class Auth_Helper():
             return f(*args, **kwargs)
         return decorated
     
-    # check if the user has sufficient rights 
+    # check if the user has sufficient rights // checken of the user niet null is ipv status 200
     def authorize(required_role: int) -> Callable:
         def decorator(f: Callable) -> Callable:
             @wraps(f)

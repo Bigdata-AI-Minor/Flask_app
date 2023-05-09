@@ -28,13 +28,15 @@ class User(db.Model):
     
     # check the password requirments
     def is_valid_password(password: str) -> bool:
-       return all([
-        len(password) >= 8,
-        any(char.isdigit() for char in password),
-        any(char.isupper() for char in password),
-        any(char.islower() for char in password),
-        any(char in "!@#$%^&*()-_=+[]{};:,.<>/?`~\\" for char in password)
-    ])
+
+        return
+    #    return all([
+    #     len(password) >= 8,
+    #     any(char.isdigit() for char in password),
+    #     any(char.isupper() for char in password),
+    #     any(char.islower() for char in password),
+    #     any(char in "!@#$%^&*()-_=+[]{};:,.<>/?`~\\" for char in password)
+    # ])
     
     @staticmethod
     def get_current_user():
