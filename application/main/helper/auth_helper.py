@@ -5,6 +5,7 @@ from ..model.DTO.User_DTO import User_DTO
 from application.main.model.enums.User_roll import User_roll
 from flask import request
 from ..responses.user.User_Reponse import User_Response
+from ..model.User import User
 class Auth_Helper():
     
     # check if the user has a valid jwt_token : endpoints can only be used then
@@ -23,29 +24,13 @@ class Auth_Helper():
         def decorator(f: Callable) -> Callable:
             @wraps(f)
             def decorated(*args, **kwargs):
-                user_data, status = Auth_service.get_logged_in_user(request)
-                if status != 200:
-                    return user_data, status
-                user_role = user_data['data']['role']
-                if user_role != User_roll.ADMIN.value:
+                current_user = User.get_current_user()
+                if current_user is None:
+                    return  current_user, 403
+                if current_user.Role != User_roll.ADMIN.value:
                     response_json = User_Response("fail","Insufficient privilege")
                     return response_json.user_response(403) 
                 return f(*args, **kwargs)
             return decorated
         return decorator
     
-    # is obsolete can maybe be used in the future
-    def conditional_api_expect(dto: User_DTO, validate: bool = True) -> Callable:
-        def decorator(f: Callable) -> Callable:
-            @wraps(f)
-            def decorated(*args, **kwargs):
-                user_data, status = Auth_service.get_logged_in_user(request)
-                if status != 200:
-                    return user_data, status
-                user_role = user_data['data']['role']
-                if user_role == User_roll.ADMIN.value:
-                    return dto.api.expect(dto.user_admin_update, validate=validate)(f)(*args, **kwargs)
-                else:
-                    return f(*args, **kwargs)
-            return decorated
-        return decorator       

@@ -1,7 +1,7 @@
-from ..model.JWT import db
 from typing import Dict, Tuple
 from ..model.User import User
 from ..service.JWT_service import JWT_service
+from ..service.BlacklistJwt_service import BlacklistJwt_Service
 from ..responses.auth.JWTtokenResponse import JWTtokenResponse
 from ..responses.user.User_Reponse import User_Response
 
@@ -25,7 +25,7 @@ class Auth_service():
              response_json = User_Response("fail","try again")
              return response_json.user_response(500)
         
-    # TODO logout function not working correctly
+    # TODO logout function not working correctly logout has to be fixed
     @staticmethod
     def logout(data: str) -> Tuple[Dict[str, str], int]:
         if data:
@@ -35,14 +35,16 @@ class Auth_service():
         if auth_token:
             response = JWT_service.validate_JWT(auth_token)
             if not isinstance(response, str):
+                 User.set_current_user(None)
+                 BlacklistJwt_Service.save_jwt_token(auth_token)
                  response_object = User_Response("Success",'User logged out successfully')
                  return response_object.user_response(200)
             else:
-                response_object = User_Response("fail",response)
-                return response_object.user_response(401)
+                response_object = JWTtokenResponse("fail",response)
+                return response_object.auth_response(401)
         else:
-            response_object = User_Response("fail",'provide a valid authentication token')
-            return response_object.user_response(403)
+            response_object = JWTtokenResponse("fail",'provide a valid authentication token')
+            return response_object.auth_response(403)
         
     
     # get the logged in user // de jwt token moet nog gedestroyed worden, dat kan gedaan worden door de huidige tijd naar beneden te plaatsen of het kan in de database opgeslagen worden
@@ -60,14 +62,3 @@ class Auth_service():
         else:
             response_object = User_Response("fail",'provide a valid authentication token')
             return response_object.user_response(401)
-    
-    @staticmethod
-    def get_current_user_role(new_request):
-        auth_token = new_request.headers.get('Authorization') 
-        response = JWT_service.validate_JWT(auth_token)
-        user = User.query.filter_by(Id=response).first()
-        print(user.Role)
-        return user.Role
-    
-
-        

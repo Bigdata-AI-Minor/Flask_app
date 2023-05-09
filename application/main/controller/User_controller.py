@@ -14,7 +14,6 @@ api = dto.api
 class User_controller(Resource):
     
     @api.doc('Create user')
-    @Auth_Helper.jwt_token_required
     @api.expect(dto.user_admin_create,validate=True)
     def post(self) -> Tuple[Dict[str, str], int]:
         return User_service.create_user(request.json)

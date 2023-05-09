@@ -1,7 +1,7 @@
 import json
 
 class JWTtokenResponse:
-    def __init__(self, status, message,Authorization):
+    def __init__(self, status, message,Authorization=None):
         self.status = status
         self.message = message
         self.Authorization = Authorization
