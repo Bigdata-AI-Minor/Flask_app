@@ -24,14 +24,7 @@ class Image_controller(Resource):
     @api.marshal_list_with(image_id_dto, envelope='data')
     def get(self):
         return Image_service.get_images()
-        
-# @api.route('/<int:id>/<int:classification>', methods=["PUT"])
-# class Image_id_update_controller(Resource):
-
-#     @api.doc('Update image entity.')
-#     def put(self, id: int, classification: int):
-#         if request.method == 'PUT':
-#             return Image_service.Edit_image(id, classification)
+    
         
 @api.route('/<int:id>', methods=["GET", "DELETE", "PUT"])  
 class Image_id_controller(Resource):

@@ -2,6 +2,8 @@ import base64
 import imghdr
 
 from flask import request
+
+from application.main.responses.images.Image_Response import Image_Response
 from ..model.Image import Image
 from ..model.Image import db
 from application.main.model.Image import Image
@@ -58,30 +60,30 @@ class Image_service():
         return Image_service.save_changes(image, "successfully uploaded an image to the database")
 
     def Delete_image(id: str):
-
-        image = Image.query.filter_by(id=id).first_or_404()
-        if request.method == 'DELETE':
-            db.session.delete(image)
-            db.session.commit()
-        #db.session.delete(Image.query.filter_by(id=id).first())
-
-        response_object = {
-        'status': 'success',
-        'message': 'Successfully deleted a image.',
-        }
-        return response_object, 201
+        try:
+            image = Image.query.filter_by(id=id).first_or_404()
+            if request.method == 'DELETE':
+                db.session.delete(image)
+                db.session.commit()
+        except:
+            response_object = Image_Response('failed', 'internal server error')
+            return response_object.image_response(500)
+        
+        response_object = Image_Response('success', 'Successfully deleted a image.')
+        return response_object.image_response(200)
 
     def Edit_image(id:  int, classification: int):
         if id:
-            image = Image.query.filter_by(id=id).first_or_404()
-            image.classification = classification
-            db.session.commit()
+            try:
+                image = Image.query.filter_by(id=id).first_or_404()
+                image.classification = classification
+                db.session.commit()
+            except:
+                response_object = Image_Response('failed', 'internal server error')
+                return response_object.image_response(500)
 
-        response_object = {
-        'status': 'success',
-        'message': 'Successfully updated the image.',
-        }
-        return response_object, 200
+        response_object = Image_Response('success', 'Successfully edited a image.')
+        return response_object.image_response(200)
 
     def get_image(id: int):
         try:
