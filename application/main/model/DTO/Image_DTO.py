@@ -1,11 +1,11 @@
-from .Entity_DTO import Entity_DTO
-from datetime import datetime
+from flask_restx import Namespace, fields
 
-class Image_DTO(Entity_DTO):
-    def __init__(self, classification, long, lan, dateTime, bitString):
-        Entity_DTO.__init__(self, "image")
-        self.Classification=classification
-        self.Long=long
-        self.Lan=lan
-        self.Created=dateTime
-        self.ButString=bitString
+class Image_DTO():
+    api = Namespace('Images', description='Image related operations.')
+    image_dto = api.model('Image', {
+        'classification': fields.String(attribute='classification', required=True, description='The email address'),
+        'long': fields.Float(attribute='long', required=True, description='The longitude of the image taken.'),
+        'lan': fields.Float(attribute='lat', required=True, description='The latitude of the image taken.'),
+        'created': fields.String(attribute='created_at', required=True, description='The time created if the image taken.'),
+        'bit_string': fields.String(attribute='bit_string', required=True, description='The the 64 bit string of the image.'),
+    })

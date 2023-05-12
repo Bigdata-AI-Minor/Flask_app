@@ -1,6 +1,6 @@
-from ...main import db
-
-class Jwt_repo(db.Model):
+from .. import db
+# jwt can be stored in the databse while loggin in. is not a hard requirement but can be useful
+class Jwt(db.Model):
     __tablename__="Jwt"
 
     Id=db.Column(db.Integer, primary_key=True, unique=True)

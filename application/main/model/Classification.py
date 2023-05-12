@@ -1,6 +1,6 @@
-from ...main import db
+from .. import db
 
-class Class_repo(db.Model):
+class Classification(db.Model):
     __tablename__="Classification"
 
     id=db.Column(db.Integer, primary_key=True, unique=True)
