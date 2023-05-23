@@ -13,13 +13,11 @@ class Classification_controller(Resource):
     @api.expect(classification_dto)
     @api.doc('Create classifcation entity.')
     def post(self):
-        if request.method == "POST":
-            data=request.json
+        data=request.json
 
-            return Classification_service.create_classification(data)
+        return Classification_service.create_classification(data)
     
     @api.doc('Get image entities.')
     @api.marshal_list_with(classification_dto, envelope='data')
     def get(self):
-        if request.method == "GET":
-            return Classification_service.get_classifications()
+        return Classification_service.get_classifications()

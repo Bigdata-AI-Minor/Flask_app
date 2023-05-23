@@ -4,20 +4,18 @@ from ..service.Image_service import Image_service
 from ..model.DTO.Image_DTO import Image_DTO
 
 dto = Image_DTO()
-
 api = dto.api
 image_dto = dto.image_dto
 image_id_dto = dto.image_id_dto
-
+    
 @api.route('/', methods=["POST", "GET"])
 class Image_controller(Resource):
-
-    @api.expect(image_dto)
+    
     @api.doc('Create image entity.')
+    @api.expect(image_dto)
     def post(self):
-        data=request.json
+        data = request.json
         return Image_service.Create_image(data)
-        # convert bitstring in backend (link)
     
     @api.doc('Get image entities.')
     @api.marshal_list_with(image_id_dto, envelope='data')
