@@ -18,9 +18,8 @@ class Auth_service():
                     response_json = JWTtokenResponse("Success","Successfully logged in",jwt_token.decode())
                     return response_json.jwt_auth_response(200)
             else:
-                response_json = User_Response("fail","invalid credentials")
-                response_json.user_response(401) 
-                return user
+                response_json = User_Response("fail","Invalid credentials")
+                return response_json.user_response(401) 
         except Exception:
              response_json = User_Response("fail","try again")
              return response_json.user_response(500)
