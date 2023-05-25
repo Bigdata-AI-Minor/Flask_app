@@ -23,7 +23,7 @@ class Upload_controller(Resource):
     def post(self):
         image_file = request.files['image_file']
         if not allowed_file(image_file.filename):
-            return {'message': 'Only JPEG or PNG files are allowed.'}, 400
+            return {'message': 'Only JPEG, JPG or PNG files are allowed.'}, 400
         
         image_data = image_file.read()
         image_base64 = base64.b64encode(image_data).decode('utf-8')
