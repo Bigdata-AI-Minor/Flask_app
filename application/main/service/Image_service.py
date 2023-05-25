@@ -55,9 +55,11 @@ class Image_service():
             if not Image_service.is_base64_image(data):
                 response_object = Image_Response('fail', 'bit_string is not a base64 image')
                 return response_object.image_response(409)
-            image = Image_bit_string.query.filter_by(bit_string=data)
             image_bit_string = Image_bit_string(bit_string=data)
-            return Image_service.save_changes(image_bit_string, "successfully uploaded an image bit string to the database")
+            db.session.add(image_bit_string)
+            db.session.commit()
+            response_object = Image_Response('succes', 'Successfully uploaded an image bit string to the database"')
+            return response_object.image_response(201)
         except:
             response_object = Image_Response('fail', 'mage bit string already exists')
             return response_object.image_response(409)
@@ -67,11 +69,10 @@ class Image_service():
     def Delete_image(id: str):
         try:
             image = Image.query.filter_by(id=id)
-            if request.method == 'DELETE':
-                db.session.delete(image)
-                db.session.commit()
-                response_object = Image_Response('success', 'Successfully deleted a image.')
-                return response_object.image_response(200)
+            db.session.delete(image)
+            db.session.commit()
+            response_object = Image_Response('success', 'Successfully deleted a image.')
+            return response_object.image_response(200)
         except:
             response_object = Image_Response('failed', 'internal server error')
             return response_object.image_response(500)
