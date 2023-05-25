@@ -24,10 +24,9 @@ class Image_service():
         image_bit_string = Image_bit_string.query.filter_by(id=image_bit_string_id).first()
         imageExists = Image.query.filter_by(image_bit_string_id=image_bit_string_id).first()
         classification_ids = [classification.id for classification in Classification_service.get_classifications()]
-        
 
         if Image_service.is_valid_date(created, "%Y-%m-%d %H:%M:%S") == False:
-            response_object = Image_Response('fail', 'Date time not in correct format, use Y-m-d H:M:S')
+            response_object = Image_Response('fail', 'Date time not in correct format, use 2023-05-23 00:00:00')
             return response_object.image_response(409)
         
         if imageExists:
@@ -48,7 +47,7 @@ class Image_service():
             db.session.add(image)
             db.session.commit()
             response_object = Image_Response('succes', 'Successfully uploaded an image to the database')
-            return response_object.image_response(409)
+            return response_object.image_response(201)
 
     def Create_image_bit_string(data: str) -> Tuple[Dict[str, str], int]:
         try:
@@ -68,7 +67,7 @@ class Image_service():
 
     def Delete_image(id: str):
         try:
-            image = Image.query.filter_by(id=id)
+            image = Image.query.filter_by(id=id).first()
             db.session.delete(image)
             db.session.commit()
             response_object = Image_Response('success', 'Successfully deleted a image.')
@@ -76,7 +75,6 @@ class Image_service():
         except:
             response_object = Image_Response('failed', 'internal server error')
             return response_object.image_response(500)
-        
 
 
     def Edit_image(id:  int, classification: int):
@@ -89,12 +87,11 @@ class Image_service():
         except:
             response_object = Image_Response('failed', 'internal server error')
             return response_object.image_response(500)
-
         
 
     def get_image(id: int):
         try:
-            return Image.query.filter_by(id=id)
+            return Image.query.filter_by(id=id).first()
         except:
             response_object = Image_Response('failed', 'image id not found')
             return response_object.image_response(404)
@@ -108,7 +105,8 @@ class Image_service():
         
     def get_image_bit_string(id: int):
         try:
-            return Image_bit_string.query.filter_by(id=id)
+            print("----------------------------------------test")
+            return Image_bit_string.query.filter_by(id=id).first()
         except:
             response_object = Image_Response('failed', 'image bit string not found')
             return response_object.image_response(404)
