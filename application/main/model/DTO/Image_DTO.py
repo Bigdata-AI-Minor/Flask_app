@@ -3,6 +3,7 @@ from flask_restx import Namespace, fields
 class Image_DTO():
     api = Namespace('Images', description='Image related operations.')
 
+
     image_dto = api.model('Image', {
         'image_bit_string_id': fields.Integer(attribute='image_bit_string_id', required=True, description='The id of the bit string image.'),
         'classification': fields.Integer(attribute='classification', required=True, description='The classification(1 = plastic, 2 = cardboard, 3 = metal, 4 = other)'),

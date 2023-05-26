@@ -9,3 +9,4 @@ class Image(db.Model):
     long=db.Column(db.Float, nullable=False)
     lan=db.Column(db.Float, nullable=False)
     created=db.Column(db.String(255), nullable=False)
+

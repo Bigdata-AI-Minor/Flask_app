@@ -6,9 +6,9 @@ from ..model.Image import Image
 from ..model.Image import db
 from application.main.model.Image import Image
 from application.main.model.Image_bit_string import Image_bit_string
-
 from application.main.service.Classification_service import Classification_service
 from typing import Dict, Tuple
+
 
 class Image_service():
 
