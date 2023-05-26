@@ -105,7 +105,6 @@ class Image_service():
         
     def get_image_bit_string(id: int):
         try:
-            print("----------------------------------------test")
             return Image_bit_string.query.filter_by(id=id).first()
         except:
             response_object = Image_Response('failed', 'image bit string not found')
