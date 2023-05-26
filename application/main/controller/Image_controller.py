@@ -1,39 +1,44 @@
 from flask import request
-from flask_restx import Namespace, fields, Resource
+from flask_restx import Resource
 from ..service.Image_service import Image_service
 from ..model.DTO.Image_DTO import Image_DTO
 
-api=Namespace('Images', description='Image related operations.')
-image_dto=api.model(Image_DTO, {
-    'Classification': fields.String(required=True, description='The email address'),
-    'Long': fields.Float(required=True, description='The longitude of the image taken.'),
-    'lan': fields.Float(required=True, description='The latitude of the image taken.'),
-    'created': fields.String(required=True, description='The time created if the image taken.'),
-})
-
+dto = Image_DTO()
+api = dto.api
+image_dto = dto.image_dto
+image_id_dto = dto.image_id_dto
+    
+image_update_dto = dto.image_put_dto
 
 @api.route('/', methods=["POST", "GET"])
 class Image_controller(Resource):
-
+    
     @api.doc('Create image entity.')
-    def post():
-        data=request.json
+    @api.expect(image_dto)
+    def post(self):
+        data = request.json
+        return Image_service.Create_image(data)
     
     @api.doc('Get image entities.')
-    def get():
-        data=request.json
+    @api.marshal_list_with(image_id_dto, envelope='data')
+    def get(self):
+        return Image_service.get_images()
+    
         
-@api.route('/<int:id>', methods=["PUT", "GET", "DELETE"])
+@api.route('/<int:id>', methods=["GET", "DELETE", "PUT"])  
 class Image_id_controller(Resource):
 
-    @api.doc('Update image entity.')
-    def put(id: int):
-        data=request.json
-
-    @api.doc('Create image entity.')
-    def delete(id: int):
-        data=request.json
+    @api.doc('Delete image entity.')
+    def delete(self, id: int):
+        return Image_service.Delete_image(id)
 
     @api.doc('Get image entity by id.')
-    def get(id : int):
-        data=request.json
+    @api.marshal_list_with(image_id_dto, envelope='data')
+    def get(self, id: int):
+        return Image_service.get_image(id)
+    
+    @api.expect(image_update_dto)
+    @api.doc('Update image entity.')
+    def put(self, id: int):
+        classification = request.json['classification']
+        return Image_service.Edit_image(id, classification)

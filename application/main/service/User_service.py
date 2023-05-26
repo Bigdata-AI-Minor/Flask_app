@@ -5,6 +5,7 @@ from typing import Dict, Tuple, Any
 from ..responses.user.User_Reponse import User_Response
 from ..model.enums.User_roll import User_roll
 
+
 class User_service():
     def create_user(data: Dict[str, str]) -> Tuple[Dict[str, str], int]:
         user = User.query.filter_by(Username=data['Username']).first()

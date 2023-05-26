@@ -1,8 +1,10 @@
+
 from .. import db,flask_bcrypt
 
 
 class User(db.Model):
     __tablename__="User"
+
 
     Id=db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     Username=db.Column(db.String(50), unique=True)

@@ -4,10 +4,12 @@ from flask_migrate import Migrate
 
 from application import blueprint
 from application.main import create_app, db
+
 from application.main.model import JWT, Image, User, Classification
 from application.main.model.enums.User_roll import User_roll
 from application.main.model.User import User
 from application.main.helper.Testdata import Testdata
+
 app = create_app(os.getenv('BOILERPLATE_ENV') or 'dev')
 app.register_blueprint(blueprint)
 
@@ -31,3 +33,5 @@ def make_shell_context():
         Class=Classification,
         User_roll=User_roll
         )
+        )
+

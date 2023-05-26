@@ -1,5 +1,5 @@
 from .. import db
-# jwt can be stored in the databse while loggin in. is not a hard requirement but can be useful
+
 class Jwt(db.Model):
     __tablename__="Jwt"
 
