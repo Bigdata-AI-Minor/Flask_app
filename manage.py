@@ -33,5 +33,4 @@ def make_shell_context():
         Class=Classification,
         User_roll=User_roll
         )
-        )
 
