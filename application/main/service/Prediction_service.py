@@ -1,28 +1,25 @@
 import torch
+import os
 from application.main.responses.prediction.prediction_response import Prediction_Response
-from application.main.service.Classification_service import Classification_service
-from typing import Dict, Tuple
-
-model = []
+from typing import Dict
+import json
 
 class Prediction_Service():
-    def __init__(self) -> None:
-        model = torch.hub.load('/torch_model/model.pt', 'yolov5m', pretrained=True)
-        model.eval()
-        return model
 
-    def Predict_image(data: Dict[str, str]):
+    def Predict_image(img: Dict[str, str]):
         try:
-            image_file = request.files['image_file']
-            if not allowed_file(image_file.filename):
-                return {'message': 'Only JPEG, JPG or PNG files are allowed.'}, 400
-        
-
-            results = model(data)
-
-            results.render()  # updates results.imgs with boxes and labels
+            path = f'{os.path.dirname(__file__)}/../torch_model/model.pt'
+            model = torch.hub.load(
+                'ultralytics/yolov5', 
+                'custom', 
+                source='local', 
+                path=path, 
+                force_reload=True
+                ) 
+            results = model(img, size=640)
             
-            return results
+            prediction = json.loads(results.pandas().xyxy[0].to_json(orient="records"))[0]['name']
+            return {'prediction': prediction }
         except:
             response = Prediction_Response('Failed', 'Could not make a prediction, try again.')
-            return Prediction_Response.prediction_message_response(500)
+            return response.prediction_message_response(500)
