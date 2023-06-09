@@ -23,4 +23,5 @@ class Image_DTO():
 
     image_put_dto = api.model('image_put_dto', {
         'classification': fields.Integer(attribute='classification', required=True, description='The classification(1 = plastic, 2 = cardboard, 3 = metal, 4 = other)'),
-                })
+    })
+                
