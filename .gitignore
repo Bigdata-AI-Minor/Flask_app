@@ -1,7 +1,11 @@
 # Byte-compiled / optimized / DLL files
+.vscode
 __pycache__/
 *.py[cod]
 *$py.class
+migrations/
+flask_main*
+application/main/torch_model/*
 
 # C extensions
 *.so
