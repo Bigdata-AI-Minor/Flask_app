@@ -5,7 +5,7 @@ __pycache__/
 *$py.class
 migrations/
 flask_main*
-application/main/torch_model/*
+torch_model/*
 
 # C extensions
 *.so
