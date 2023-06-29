@@ -40,7 +40,7 @@ After the build you would see in docker a new container called 'flask_app' with 
 http://localhost:5000/
 ```
 
-If it is not running in the docker container and stop with a exit 1 or 2, you need to delete the container and run the code again. 
+If it is not running in the docker container and stop with a exit 1 or 2, you need to delete the container and run the code again. Another option would be running it with WSL or WSL2. This can be installed with -> https://www.windowscentral.com/how-install-wsl2-windows-10. After that, enable it in docker by going into the setting, general and check 'use the WSL 2 based engine'. 
 
 # Individual stack
 For running this back-end application you need Python3.9 and Pip. For installing that here:
