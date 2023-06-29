@@ -1,8 +1,5 @@
 # Flask_app
-
-This is a proof of contest application for litter detection that is coupled to the 'Stadjutters' program. This repo contains the material prediction of litter pictures in jpg or png format.
-
-The platform of this repo is created in a Linux environment with pip and python3.9 version installed. Below are the commands for installing the dependencies and virtual environment with the database. There will be a test user with the username and password 'test' for testing purposes if your are making a migration. The model for prediction is not delivered with this repository and it is advised to use a YOLOv5 model with it.
+This is a proof of contest application for litter detection that is coupled to the 'Stadjutters' program. This repo contains the backend and material prediction of litter pictures in jpg or png format. This repository only contain the backend system of the proof of concept application. The prediction is also done as a service with the detection functioned usd from the YOLOv5 algorithm. So only pytorch model will work with this.
 
 for prediction you need to place the pytorch model in the torch folder with the name model.pt:
 ```sh
@@ -43,7 +40,9 @@ http://localhost:5000/
 If it is not running in the docker container and stop with a exit 1 or 2, you need to delete the container and run the code again. Another option would be running it with WSL or WSL2. This can be installed with -> https://www.windowscentral.com/how-install-wsl2-windows-10. After that, enable it in docker by going into the setting, general and check 'use the WSL 2 based engine'. 
 
 # Individual stack
-For running this back-end application you need Python3.9 and Pip. For installing that here:
+The platform for this repository is created in a Linux environment with pip and python3.9 version installed. Below are the commands for installing the dependencies and virtual environment with the database. There will be a test user with the username and password 'test' for testing purposes if your are making a migration. The model for prediction is not delivered with this repository and it is advised to use a YOLOv5 model with it.
+
+For running this back-end application you need Python3.9, virtualenv and Pip. For installing that here:
 ```sh
 pip
 https://pip.pypa.io/en/stable/installation/
@@ -52,27 +51,28 @@ https://www.youtube.com/watch?v=uDbDIhR76H4
 https://www.python.org/downloads/
 ```
 
-When both are working you can download the repository and run the application by setting the virtual environment and installing the packages for the application. 
-
-Create from the root folder of this project a virtual environment: 
+When the environment is ready, you need a CLI, for example terminator, CMD or an IDE. Create from the root folder of this project a virtual environment: 
 ```sh
 virtualenv env
 ```
 
-Activate the environment: 
+This create a folder called env where the modules for this program will be downloaded to and used for this program. You can activate the env with: 
 ```sh
 source ./env/bin/activate
 ```
-You should now be inside (venv)
 
-Install dependencies:
+You should be inside the environment, you can verify it if the sentence starts with (env) in the CLI. After that you can start installing the dependencies for this project by the next command:
 ```sh
 python3.9 -m pip install -r requirements.txt
 ```
 
-Export flask application environment variable:
+The requirements.txt contains the dependencies modules for this project. It will take some time for downloading and installing the packages. After some time, the Flask package is also installed and you can now set the flask app to the manage.py, the starting point for this application. Export flask application environment variable:
 ```sh
 export FLASK_APP=manage.py
+```
+
+After that you can need to make migration and initializing the database. That will create a test user called 'test' with the password 'test' where you can use the application:
+```sh 
 
 flask db init
 
@@ -81,17 +81,17 @@ flask db migrate
 flask db upgrade
 ```
 
-Start the flask application: 
+After that you can run the application with: 
 ```sh
 flask run
 ```
 
-Install the libraries in env (example flask but needs to change to actual libs): 
+Install the stand alone packages in env (example flask but needs to change to actual packages): 
 ```sh
 python3.9 -m pip install flask
 ```
 
-At any time save all dependencies we use: 
+Save the working dependencies in in the requirements.txt: 
 ```sh   
 python3.9 -m pip freeze > requirements.txt
 ```
