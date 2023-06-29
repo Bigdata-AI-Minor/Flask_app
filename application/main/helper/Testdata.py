@@ -9,7 +9,9 @@ class Testdata():
     @staticmethod
     def populate_database():
         # hashed_password = flask_bcrypt.generate_password_hash('test').decode('utf-8')
-        admin_user = User(Username='test', Password='test', Role=User_roll.ADMIN.value)
-        db.session.add(admin_user)
-        db.session.commit()
-    
+        try:
+            admin_user = User(Username='test', Password='test', Role=User_roll.ADMIN.value)
+            db.session.add(admin_user)
+            db.session.commit()
+        except:
+            None

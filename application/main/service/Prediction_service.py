@@ -8,7 +8,12 @@ class Prediction_Service():
 
     def Predict_image(img: Dict[str, str]):
         try:
-            path = f'{os.path.dirname(__file__)}/../torch_model/model.pt'
+            # use this path in native linux environment 
+            # path = f'{os.path.dirname(__file__)}/../torch_model/model.pt'
+            
+            # use this path in docker environment 
+            path = f'{os.path.dirname(__file__)}/../../../torch_model/model.pt'
+            
             model = torch.hub.load(
                 'ultralytics/yolov5', 
                 'custom', 
@@ -21,5 +26,6 @@ class Prediction_Service():
             prediction = json.loads(results.pandas().xyxy[0].to_json(orient="records"))[0]['name']
             return {'prediction': prediction }
         except:
-            response = Prediction_Response('Failed', 'Could not make a prediction, try again.')
+            # response = Prediction_Response('Failed', 'Could not make a prediction, try again.')
+            response = Prediction_Response('Failed', path)
             return response.prediction_message_response(500)
