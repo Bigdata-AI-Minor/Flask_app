@@ -46,12 +46,17 @@ For running this back-end application you need Python3.9, virtualenv and Pip. Fo
 ```sh
 pip
 https://pip.pypa.io/en/stable/installation/
-python3.9 
+python3.9
 https://www.youtube.com/watch?v=uDbDIhR76H4
 https://www.python.org/downloads/
 ```
 
-When the environment is ready, you need a CLI, for example terminator, CMD or an IDE. Create from the root folder of this project a virtual environment: 
+After installing pip, you need a CLI, for example terminator, CMD or an IDE for installing virtualenv. In the CLI, type in the next command and press 'y' for installing virtualenv:
+```sh
+pip install virtualenv
+```
+
+After installing virtualenv, you can create one by going into the root folder of this project and type for a virtual environment: 
 ```sh
 virtualenv env
 ```
