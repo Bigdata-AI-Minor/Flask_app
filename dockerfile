@@ -4,7 +4,7 @@
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
-# set the working directory to /app
+# set the working directory to /FLASK_APP
 WORKDIR /FLASK_APP
 
 # install python and pip

@@ -3,10 +3,10 @@ This is a proof of contest application for litter detection that is coupled to t
 
 for prediction you need to place the pytorch model in the torch folder with the name model.pt:
 ```sh
-- application 
-    - main
-        - torch_model
-            - model.pt
+-> application 
+    -> main
+        -> torch_model
+            -> model.pt
 ```
 
 The model could be find in the research drive with the name of "epochs300_yolo5m_fullData_hypScratch_v2_gen2", in here you can find the weights with the best or last model that is generated in this session.
@@ -39,7 +39,7 @@ http://localhost:5000/
 
 If it is not running in the docker container and stop with a exit 1 or 2, you need to delete the container and run the code again. Another option would be running it with WSL or WSL2. This can be installed with -> https://www.windowscentral.com/how-install-wsl2-windows-10. After that, enable it in docker by going into the setting, general and check 'use the WSL 2 based engine'. 
 
-# Individual stack
+# Native platform Lunix
 The platform for this repository is created in a Linux environment with pip and python3.9 version installed. Below are the commands for installing the dependencies and virtual environment with the database. There will be a test user with the username and password 'test' for testing purposes if your are making a migration. The model for prediction is not delivered with this repository and it is advised to use a YOLOv5 model with it.
 
 For running this back-end application you need Python3.9, virtualenv and Pip. For installing that here:
@@ -61,7 +61,7 @@ After installing virtualenv, you can create one by going into the root folder of
 virtualenv env
 ```
 
-This create a folder called env where the modules for this program will be downloaded to and used for this program. You can activate the env with: 
+This create a   folder called env where the modules for this program will be downloaded to and used for this program. You can activate the env with: 
 ```sh
 source ./env/bin/activate
 ```
